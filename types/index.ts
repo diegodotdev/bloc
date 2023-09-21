@@ -49,3 +49,8 @@ export interface News {
   title: string;
   url: string;
 }
+export interface Watchlist {
+  id: number;
+  user_id: string;
+  crypto: string[];
+}

@@ -1,8 +1,8 @@
-import { getCryptoCoin } from "@/lib/utils";
+import { getCryptoCoin } from "@/lib/requests";
 import { CryptoDetails } from "@/types";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import HTMLReactParser from "html-react-parser";
+import { AddToWatchlist } from "@/components";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const data: CryptoDetails = await getCryptoCoin(params?.id);
@@ -18,11 +18,10 @@ export default async function Page({ params }: { params: { id: string } }) {
             height={100}
             className="w-[50px] h-[50px] object-cover"
           />
-          <p className="font-[600] text-lg">{data?.name}</p>
+          <p className="font-[600] text-xl">{data?.name}</p>
+          <p className="px-4 py-1 rounded-full bg-gray-200">{data?.symbol}</p>
         </div>
-        <div className="bg-gray-200 rounded-lg grid place-items-center px-4 py-1">
-          <p>{data?.symbol}</p>
-        </div>
+        <AddToWatchlist id={data?.id} />
       </div>
       <div className="w-full flex flex-col md:flex-row gap-4 items-center h-[20vh] md:h-[10vh]">
         <div className="w-full md:w-1/2 border-b border-b-gray-200 h-full flex justify-between items-center">
@@ -80,7 +79,18 @@ export default async function Page({ params }: { params: { id: string } }) {
           <p>${data?.market_data?.low_24h?.usd?.toLocaleString()}</p>
         </div>
       </div>
-      <p>{HTMLReactParser(data?.description?.en)}</p>
+      <div className="w-full flex flex-col md:flex-row gap-4 items-center h-[20vh] md:h-[10vh]">
+        <div className="w-full md:w-1/2 border-b border-b-gray-200 h-full flex justify-between items-center">
+          <p>Current Price:</p>
+          <p>
+            $
+            {data?.market_data?.current_price?.usd < 10
+              ? data?.market_data?.current_price?.usd
+              : data?.market_data?.current_price?.usd?.toLocaleString()}
+          </p>
+        </div>
+      </div>
+      <div dangerouslySetInnerHTML={{ __html: data?.description?.en }} />
     </div>
   );
 }

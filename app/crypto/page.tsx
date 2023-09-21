@@ -1,7 +1,5 @@
-import { getCryptoCoins } from "@/lib/utils";
-import { Coin, CryptoData } from "@/components";
-import { Crypto } from "@/types";
-import { Search } from "lucide-react";
+import { getCryptoCoins } from "@/lib/requests";
+import { CryptoData } from "@/components";
 
 export default async function Page() {
   const coins = await getCryptoCoins();
