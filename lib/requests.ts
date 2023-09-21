@@ -1,7 +1,9 @@
 import { supabase } from "@/lib/utils";
 
 export const getCryptoCoins = async () => {
-  const response = await fetch("http://localhost:3000/api/crypto");
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/crypto`
+  );
   const result = await response.json();
   return result;
 };
